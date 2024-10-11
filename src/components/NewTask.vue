@@ -1,27 +1,17 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { createTask } from '../services/tasks.service.js'
 import { ref } from 'vue'
+import { useTasksStore } from '@/stores/useTasksStore.js'
+
+const tasksStore = useTasksStore()
 
 const route = useRoute()
-
-const props = defineProps({
-  updateTasks: {
-    type: Function,
-    required: true
-  }
-})
 const newTask = ref('')
 
 const addNewTask = async () => {
-  try {
-    const userId = route.query.userId
-    await createTask(newTask.value, userId)
-    newTask.value = ''
-    props.updateTasks()
-  } catch (error) {
-    console.log('Error creating task:', error.response)
-  }
+  const userId = route.query.userId
+  await tasksStore.createTask(newTask.value, userId)
+  newTask.value = ''
 }
 </script>
 <template>

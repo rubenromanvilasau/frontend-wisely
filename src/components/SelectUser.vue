@@ -19,7 +19,6 @@ const fetchUsers = async () => {
 }
 
 const handleUserChange = (userId) => {
-  console.log('userId', userId)
   router.push({ path: '/', query: { userId } })
 }
 
