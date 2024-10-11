@@ -37,9 +37,10 @@ nvm use
 
 create a .env file and add the following variables:
 
+PORT DEPENDS ON BACKEND PORT.
+
 ### EXAMPLE:
 
-PORT DEPENDS ON BACKEND PORT.
 VITE_APP_BACKEND_URL=http://localhost:<PORT>/api
 
 Install the dependencies and devDependencies.
