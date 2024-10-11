@@ -1,5 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
+
+const API_URL = 'http://localhost:3000/api'
 
 export const getUsers = () => {
-    return axios.get('http://localhost:4000/api/users');
+  return axios.get(`${API_URL}/users`)
 }
