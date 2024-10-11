@@ -43,7 +43,7 @@ npm run dev
 
 ### EXAMPLE:
 
-VITE_APP_BACKEND_URL=http://localhost:3000/api
+VITE_APP_BACKEND_URL=http://localhost:<PORT>/api
 
 ## License
 
