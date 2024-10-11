@@ -20,9 +20,7 @@ fetchUsers()
     <div class="flex flex-col gap-2">
       <label for="users">Tasks from user:</label>
       <select name="users" class="text-white uppercase font-bold bg-[#2a2a2a] px-4 py-2 rounded-lg outline-none" id="users">
-        <option value="">ASd</option>
-        <option value="">asdlk</option>
-        <option value="">asdlkadslkadjkajdkla</option>
+        <option v-for="user in users" v-bind:key="user.id" :value="user.id">{{ user.name }}</option>
       </select>
     </div>
   </div>
