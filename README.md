@@ -41,7 +41,7 @@ PORT DEPENDS ON BACKEND PORT.
 
 ### EXAMPLE:
 
-VITE_APP_BACKEND_URL=http://localhost:<PORT>/api
+VITE_APP_BACKEND_URL=http://localhost:3000/api
 
 Install the dependencies and devDependencies.
 
