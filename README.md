@@ -41,6 +41,8 @@ npm run dev
 
 ## There's a .env.example file but here's what you need:
 
+create a .env file and add the following variables:
+
 ### EXAMPLE:
 
 VITE_APP_BACKEND_URL=http://localhost:<PORT>/api
