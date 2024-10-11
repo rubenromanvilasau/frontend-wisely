@@ -7,6 +7,7 @@ import CompletedTasksTable from './components/CompletedTasksTable.vue'
 import Topbar from './components/Topbar.vue'
 import TasksTableSkeleton from './components/skeletons/TasksTableSkeleton.vue'
 import NewTask from './components/NewTask.vue'
+import Selectuser from './components/SelectUser.vue'
 
 const route = useRoute()
 
@@ -20,8 +21,10 @@ const error = ref(null)
  */
 const fetchData = async () => {
   try {
-    const { data } = await getUserTasks(1) //TODO GET USER
+    isLoading.value = true
+    const userId = route.query.user //get the user id from the query
 
+    const { data } = await getUserTasks(userId)
     pendingTasks.value = data.data.filter((task) => !task.done)
     completedTasks.value = data.data.filter((task) => task.done)
   } catch (error) {
@@ -31,8 +34,7 @@ const fetchData = async () => {
   }
 }
 
-fetchData()
-// watch(() => route.query.user, fetchData, { immediate: true })
+watch(() => route.query.user, fetchData(), { immediate: true })
 </script>
 
 <template>
@@ -40,6 +42,7 @@ fetchData()
     <Topbar />
   </header>
   <p class="text-red-500 text-lg uppercase" v-if="error">{{ error }}</p>
+  <SelectUser />
   <div class="mt-16">
     <PendingTasksTable v-if="!isLoading" :tasks="pendingTasks" :updateTasks="fetchData" />
     <TasksTableSkeleton v-if="isLoading" :title="'Pending tasks'" />
