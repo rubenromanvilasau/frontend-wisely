@@ -1,35 +1,21 @@
 <script setup>
 import { formatDate } from '../utils/date.js'
 import TrashIcon from '../components/icons/TrashIcon.vue'
-import { updateTask, deleteTask } from '../services/tasks.service.js'
+import { useTasksStore } from '@/stores/useTasksStore.js'
+import { useRoute } from 'vue-router'
 
-const props = defineProps({
-  tasks: {
-    type: Array,
-    required: true
-  },
-  updateTasks: {
-    type: Function,
-    required: true
-  }
-})
+const route = useRoute()
 
-const deleteCompletedTask = async (taskId) => {
-  try {
-    await deleteTask(taskId)
-    props.updateTasks()
-  } catch (error) {
-    console.log('Error deleting task:', error)
-  }
-}
+const tasksStore = useTasksStore()
 
 const markTaskAsPending = async (taskId) => {
-  try {
-    await updateTask(taskId, { done: false })
-    props.updateTasks()
-  } catch (error) {
-    console.log('Error marking task as pending:', error)
-  }
+  const userId = route.query.userId
+  await tasksStore.updateTask(taskId, { done: false }, userId)
+}
+
+const deleteTask = async (taskId) => {
+  const userId = route.query.userId
+  await tasksStore.deleteTask(taskId, userId)
 }
 </script>
 <template>
@@ -43,7 +29,7 @@ const markTaskAsPending = async (taskId) => {
       </tr>
     </thead>
     <tbody class="mt-4">
-      <tr v-for="task in tasks" v-bind:key="task.id" class="bg-[#2a2a2a]">
+      <tr v-for="task in tasksStore.completedTasks" v-bind:key="task.id" class="bg-[#2a2a2a]">
         <td class="py-2 px-4 rounded-l-xl flex items-center gap-4">
           <input
             title="Mark as pending"
@@ -53,7 +39,7 @@ const markTaskAsPending = async (taskId) => {
             v-model="task.done"
           />
           <TrashIcon
-            v-on:click="deleteCompletedTask(task.id)"
+            v-on:click="deleteTask(task.id)"
             class="h-8 w-8 cursor-pointer hover:scale-105 duration-200"
           />
         </td>

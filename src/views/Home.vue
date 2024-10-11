@@ -1,6 +1,5 @@
 <script setup>
-import { getUserTasks } from '../services/tasks.service.js'
-import { ref, watch, watchEffect } from 'vue'
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import PendingTasksTable from '@/components/PendingTasksTable.vue'
 import CompletedTasksTable from '@/components/CompletedTasksTable.vue'
@@ -8,40 +7,17 @@ import Topbar from '@/components/Topbar.vue'
 import TasksTableSkeleton from '@/components/skeletons/TasksTableSkeleton.vue'
 import NewTask from '@/components/NewTask.vue'
 import SelectUser from '@/components/SelectUser.vue'
+import { useTasksStore } from '@/stores/useTasksStore.js'
+
+const tasksStore = useTasksStore()
 
 const route = useRoute()
 
-const isLoading = ref(true)
-const pendingTasks = ref([])
-const completedTasks = ref([])
-const error = ref(null)
-
-/**
- * Get tasks associated to an especific user
- */
-const fetchData = async () => {
-  try {
-    isLoading.value = true
-    const userId = route.query.userId //get the user id from the query
-
-    const { data } = await getUserTasks(userId)
-
-    pendingTasks.value = data.data.filter((task) => !task.done)
-    completedTasks.value = data.data.filter((task) => task.done)
-  } catch (error) {
-    console.log('error getting tasks', error)
-    error.value = error
-  } finally {
-    isLoading.value = false
-  }
-}
-
-fetchData()
 watch(
   () => route.query.userId,
   (newUserId, oldUserId) => {
     if (newUserId !== oldUserId) {
-      fetchData()
+      tasksStore.fetchTasks(newUserId)
     }
   },
   { immediate: true }
@@ -52,15 +28,15 @@ watch(
   <header>
     <Topbar />
   </header>
-  <p class="text-red-500 text-lg uppercase" v-if="error">{{ error }}</p>
+  <p class="text-red-500 text-lg uppercase" v-if="tasksStore.error">{{ error }}</p>
   <SelectUser />
   <div class="mt-16">
-    <PendingTasksTable v-if="!isLoading" :tasks="pendingTasks" :updateTasks="fetchData" />
-    <TasksTableSkeleton v-if="isLoading" :title="'Pending tasks'" />
-    <NewTask :updateTasks="fetchData" />
+    <PendingTasksTable v-if="!tasksStore.isLoading" />
+    <TasksTableSkeleton v-if="tasksStore.isLoading" :title="'Pending tasks'" />
+    <NewTask />
   </div>
   <div class="mt-16">
-    <CompletedTasksTable v-if="!isLoading" :tasks="completedTasks" :updateTasks="fetchData" />
-    <TasksTableSkeleton v-if="isLoading" :title="'Completed tasks'" />
+    <CompletedTasksTable v-if="!tasksStore.isLoading" />
+    <TasksTableSkeleton v-if="tasksStore.isLoading" :title="'Completed tasks'" />
   </div>
 </template>
