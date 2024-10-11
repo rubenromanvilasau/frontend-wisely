@@ -1,35 +1,49 @@
-# frontend-wisely
+# Frontend Wisely Technical Test
+## TO-DO App 
 
-This template should help get you started developing with Vue 3 in Vite.
+To-Do API CRUD to handle different tasks
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Create a task
+- Get user tasks
+- Update a task
+- Delete a task
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Tech
 
-## Project Setup
+- [Vue.js] - Vue.js v3.4.29
+- [Axios] - fast node.js network app framework v4.21.1
 
+Repository: [repository]
+ on GitHub.
+
+## Installation
+
+It requires [Node.js](https://nodejs.org/) v22.8.0 to run.
+If you have nvm installed you can do 
 ```sh
-npm install
+nvm use
 ```
+(there's a .nvmrc file that contains appropiate node version)
 
-### Compile and Hot-Reload for Development
+Install the dependencies and devDependencies, database will be seeded automatically.
 
 ```sh
+cd frontend-wisely
+npm i
 npm run dev
 ```
 
-### Compile and Minify for Production
+## There's a .env.example file but here's what you need:
+### EXAMPLE:
+VUE_APP_BACKEND_URL=http://localhost:3000/api
 
-```sh
-npm run build
-```
+## License
 
-### Lint with [ESLint](https://eslint.org/)
+MIT
 
-```sh
-npm run lint
-```
+   [Vue.js]: <https://vuejs.org/>
+   [Axios]: <https://axios-http.com/es/docs/intro>
+   [repository]: <https://github.com/rubenromanvilasau/frontend-wisely>

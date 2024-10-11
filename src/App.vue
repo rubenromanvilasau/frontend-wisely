@@ -7,13 +7,13 @@ import CompletedTasksTable from './components/CompletedTasksTable.vue'
 import Topbar from './components/Topbar.vue'
 import TasksTableSkeleton from './components/skeletons/TasksTableSkeleton.vue'
 import NewTask from './components/NewTask.vue'
-import Selectuser from './components/SelectUser.vue'
+import SelectUser from './components/SelectUser.vue'
 
 const route = useRoute()
 
 const isLoading = ref(true)
-const pendingTasks = ref(null)
-const completedTasks = ref(null)
+const pendingTasks = ref([])
+const completedTasks = ref([])
 const error = ref(null)
 
 /**
@@ -34,7 +34,7 @@ const fetchData = async () => {
   }
 }
 
-watch(() => route.query.user, fetchData(), { immediate: true })
+watch(() => route.query.user, fetchData(),{ immediate: true })
 </script>
 
 <template>

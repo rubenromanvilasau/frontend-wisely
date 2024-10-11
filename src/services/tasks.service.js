@@ -9,7 +9,7 @@ export const getUserTasks = async (userId) => {
   console.log('env', import.meta.env.VUE_APP_BACKEND_URL)
   if (!userId) throw new Error('userId is required')
   //   return axios.get(`${import.meta.env.VUE_APP_BACKEND_URL}/users/${userId}/tasks`)
-  return axios.get(`${'http://localhost:3000/api'}/users/${userId}/tasks`)
+  return axios.get(`${'http://localhost:4000/api'}/users/${userId}/tasks`)
 }
 
 /**
@@ -20,7 +20,7 @@ export const getUserTasks = async (userId) => {
  */
 export const createTask = async (taskName, userId) => {
   if (!taskName) throw new Error('task is required')
-  return axios.post(`${'http://localhost:3000/api'}/tasks`, { name: taskName, userId })
+  return axios.post(`${'http://localhost:4000/api'}/tasks`, { name: taskName, userId })
 }
 
 /**
@@ -31,7 +31,7 @@ export const createTask = async (taskName, userId) => {
  */
 export const updateTask = async (taskId, task) => {
   if (!taskId || !task) throw new Error('taskId and task is required')
-  return axios.put(`${'http://localhost:3000/api'}/tasks/${taskId}`, task)
+  return axios.put(`${'http://localhost:4000/api'}/tasks/${taskId}`, task)
 }
 
 /**
@@ -41,5 +41,5 @@ export const updateTask = async (taskId, task) => {
  */
 export const deleteTask = async (taskId) => {
   if (!taskId) throw new Error('taskId is required')
-  return axios.delete(`${'http://localhost:3000/api'}/tasks/${taskId}`)
+  return axios.delete(`${'http://localhost:4000/api'}/tasks/${taskId}`)
 }
