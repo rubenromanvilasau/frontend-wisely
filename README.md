@@ -31,21 +31,24 @@ nvm use
 
 (there's a .nvmrc file that contains appropiate node version)
 
-Install the dependencies and devDependencies, database will be seeded automatically.
+#### Don't forget to fill .ENV file
+
+## There's a .env.example file but here's what you need
+
+create a .env file and add the following variables:
+
+### EXAMPLE:
+
+PORT DEPENDES ON BACKEND PORT.
+VITE_APP_BACKEND_URL=http://localhost:<PORT>/api
+
+Install the dependencies and devDependencies.
 
 ```sh
 cd frontend-wisely
 npm i
 npm run dev
 ```
-
-## There's a .env.example file but here's what you need:
-
-create a .env file and add the following variables:
-
-### EXAMPLE:
-
-VITE_APP_BACKEND_URL=http://localhost:<PORT>/api
 
 ## License
 
