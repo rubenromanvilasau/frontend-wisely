@@ -2,7 +2,7 @@
 
 ## TO-DO App
 
-To-Do API CRUD to handle different tasks
+To-Do CRUD Web APP to handle different tasks
 
 ## Features
 
