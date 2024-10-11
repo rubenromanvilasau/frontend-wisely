@@ -1,6 +1,9 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import { createTask } from '../services/tasks.service.js'
 import { ref } from 'vue'
+
+const route = useRoute()
 
 const props = defineProps({
   updateTasks: {
@@ -12,7 +15,8 @@ const newTask = ref('')
 
 const addNewTask = async () => {
   try {
-    await createTask(newTask.value, 1) //TODO GET USER
+    const userId = route.query.userId
+    await createTask(newTask.value, userId)
     newTask.value = ''
     props.updateTasks()
   } catch (error) {

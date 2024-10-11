@@ -9,7 +9,6 @@ const API_URL = 'http://localhost:3000/api'
  */
 export const getUserTasks = async (userId) => {
   if (!userId) throw new Error('userId is required')
-  //   return axios.get(`${import.meta.env.VUE_APP_BACKEND_URL}/users/${userId}/tasks`)
   return axios.get(`${API_URL}/users/${userId}/tasks`)
 }
 

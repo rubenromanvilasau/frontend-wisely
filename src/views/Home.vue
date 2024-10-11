@@ -1,13 +1,13 @@
 <script setup>
 import { getUserTasks } from '../services/tasks.service.js'
-import { watch, ref } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import PendingTasksTable from '../components/PendingTasksTable.vue'
-import CompletedTasksTable from '../components/CompletedTasksTable.vue'
-import Topbar from '../components/Topbar.vue'
-import TasksTableSkeleton from '../components/skeletons/TasksTableSkeleton.vue'
-import NewTask from '../components/NewTask.vue'
-import SelectUser from '../components/SelectUser.vue'
+import PendingTasksTable from '@/components/PendingTasksTable.vue'
+import CompletedTasksTable from '@/components/CompletedTasksTable.vue'
+import Topbar from '@/components/Topbar.vue'
+import TasksTableSkeleton from '@/components/skeletons/TasksTableSkeleton.vue'
+import NewTask from '@/components/NewTask.vue'
+import SelectUser from '@/components/SelectUser.vue'
 
 const route = useRoute()
 
@@ -22,14 +22,14 @@ const error = ref(null)
 const fetchData = async () => {
   try {
     isLoading.value = true
-    const userId = route.query.user || 1 //get the user id from the query
+    const userId = route.query.userId //get the user id from the query
 
     const { data } = await getUserTasks(userId)
 
     pendingTasks.value = data.data.filter((task) => !task.done)
     completedTasks.value = data.data.filter((task) => task.done)
   } catch (error) {
-    console.log('error gettingt tasks', error)
+    console.log('error getting tasks', error)
     error.value = error
   } finally {
     isLoading.value = false
@@ -37,7 +37,15 @@ const fetchData = async () => {
 }
 
 fetchData()
-watch(() => route.query.user, fetchData(), { immediate: true })
+watch(
+  () => route.query.userId,
+  (newUserId, oldUserId) => {
+    if (newUserId !== oldUserId) {
+      fetchData()
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
