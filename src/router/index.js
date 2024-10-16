@@ -7,6 +7,10 @@ const router = createRouter({
     {
       path: '/',
       component: Home
+    },
+    {
+      path: '/error',
+      component: () => import('@/views/Error.vue')
     }
   ]
 })

@@ -15,6 +15,9 @@ const fetchUsers = async () => {
     handleUserChange(firstUser.id)
   } catch (error) {
     console.log('error getting users', error)
+    if (!error.response) {
+      router.push('/error')
+    }
   }
 }
 

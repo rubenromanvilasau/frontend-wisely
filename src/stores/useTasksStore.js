@@ -18,33 +18,49 @@ export const useTasksStore = defineStore('tasks', {
         this.tasks = data
         this.completedTasks = data.filter((task) => task.done)
         this.pendingTasks = data.filter((task) => !task.done)
-        this.isLoading = false
       } catch (error) {
         console.error('[useTodoStore] ERROR fetching tasks', error)
+        this.error = error
+        throw error
+      } finally {
+        this.isLoading = false
       }
     },
     async createTask(taskName, userId) {
       try {
-        await createTask(taskName, userId)
-        this.fetchTasks(userId)
+        const response = await createTask(taskName, userId)
+        const newTask = response.data
+        this.pendingTasks = [...this.pendingTasks, newTask]
       } catch (error) {
         console.error('[useTodoStore] ERROR creating task', error)
+        this.error = error
       }
     },
-    async updateTask(taskId, task, userId) {
+    async updateTask(taskId, task) {
       try {
         await updateTask(taskId, task)
-        this.fetchTasks(userId)
+
+        if (task.done) {
+          this.completedTasks = [...this.completedTasks, task]
+          this.pendingTasks = this.pendingTasks.filter((t) => t.id !== taskId)
+        } else {
+          this.pendingTasks = [...this.pendingTasks, task]
+          this.completedTasks = this.completedTasks.filter((t) => t.id !== taskId)
+        }
       } catch (error) {
         console.error('[useTodoStore] ERROR updating task', error)
+        this.error = error
       }
     },
-    async deleteTask(taskId, userId) {
+    async deleteTask(taskId) {
       try {
         await deleteTask(taskId)
-        this.fetchTasks(userId)
+
+        this.pendingTasks = this.pendingTasks.filter((t) => t.id !== taskId)
+        this.completedTasks = this.completedTasks.filter((t) => t.id !== taskId)
       } catch (error) {
         console.error('[useTodoStore] ERROR deleting task', error)
+        this.error = error
       }
     }
   }

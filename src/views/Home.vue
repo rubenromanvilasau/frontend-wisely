@@ -1,6 +1,6 @@
 <script setup>
 import { watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import PendingTasksTable from '@/components/PendingTasksTable.vue'
 import CompletedTasksTable from '@/components/CompletedTasksTable.vue'
 import Topbar from '@/components/Topbar.vue'
@@ -12,12 +12,17 @@ import { useTasksStore } from '@/stores/useTasksStore.js'
 const tasksStore = useTasksStore()
 
 const route = useRoute()
+const router = useRouter()
 
 watch(
   () => route.query.userId,
   (newUserId, oldUserId) => {
     if (newUserId !== oldUserId) {
-      tasksStore.fetchTasks(newUserId)
+      tasksStore.fetchTasks(newUserId).catch((error) => {
+        if (!error.response) {
+          router.push('/error')
+        }
+      })
     }
   },
   { immediate: true }
